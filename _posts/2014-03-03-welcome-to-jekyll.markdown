@@ -1,24 +1,13 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Switch to GitHub Pages + Jekyll!"
 date:   2014-03-03 19:37:20
 categories: jekyll update
 ---
 
-You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
-To add new posts, simply add a file in the `_posts` directory that follows the convention: YYYY-MM-DD-name-of-post.ext.
+After months' delay, I finally continue to write the blog. Due to the shortage of money, I cannot afford an VPS, even if I share the rent with a friend. On the other hand, WordPress is a little bit clumsy for me. So I switch to the GitHub Pages. All the posts are safely stored on GitHub and I have no need to worry about the backup when VPS expires. Besides, the style is so simple and neat, which perfectly satisfies me. Everything looks great here.
 
-Jekyll also offers powerful support for code snippets:
+I will find some valuable posts on my earlier blog and post here. Hope I can keep the blog rate at one post per week. Kill the procrastination!
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
 
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll's GitHub repo][jekyll-gh].
 
-[jekyll-gh]: https://github.com/mojombo/jekyll
-[jekyll]:    http://jekyllrb.com
