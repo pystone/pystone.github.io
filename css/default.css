@@ -62,7 +62,7 @@ pre ol{margin-left:25px;list-style-type:decimal;}
 .sidenav li { margin-bottom:12px; word-break: break-all;}
 .sidenav a { color:#555; font-size:14px; display:block;}
 .entry{margin-bottom:80px;width:680px; float:left; background:#fff; padding:30px; box-shadow:0 2px 6px #ccc; }
-.me-content{margin-left:70px;margin-bottom:80;width:680px; float:left; background:#fff; padding:30px;}
+.me-content{margin-left:70px;margin-bottom:80;width:680px; float:left; background:#fff; padding:30px; }
 .me-content ul{margin-bottom:25px;margin-left:25px;}
 .me-content p+ul {margin-top:-20px;}
 .me-content ul li{margin-bottom:5px;list-style:disc;line-height:1.8em;}
@@ -85,13 +85,13 @@ pre ol{margin-left:25px;list-style-type:decimal;}
     background-position:50% 50%;
 }
 .tech .aside{
-    background-image:url(https://raw.githubusercontent.com/pystone/pystone.github.io/master/images/tech_side.jpg);
+    background-image:url(/images/tech_side.jpg);
 }
 .life .aside{
-    background-image:url(https://raw.githubusercontent.com/pystone/pystone.github.io/master/images/life_side.jpg);
+    background-image:url(/images/life_side.jpg);
 }
 .me .aside{
-    background-image:url(https://raw.githubusercontent.com/pystone/pystone.github.io/master/images/me_side.jpg);
+    background-image:url(/images/me_side.jpg);
 }
 .index-content .section { margin-left:30%; padding-top:80px; padding-right:15%; ;}
 

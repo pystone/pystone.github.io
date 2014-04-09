@@ -4,7 +4,7 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-04-09T15:28:05+08:00</updated>
+   <updated>2014-04-09T16:22:07+08:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
@@ -14,7 +14,7 @@
    
    <entry>
      <title>Change the look of my blog</title>
-     <link href="http://beiyuu.com/change-the-look-of-my-blog"/>
+     <link href="http://ysite.me/change-the-look-of-my-blog"/>
      <updated>2014-04-09T12:05:20Z</updated>
      <id>http://beiyuu.com/change-the-look-of-my-blog</id>
      <content type="html">&lt;p&gt;The default theme of Jekyll is too simple and looks not very well. After careful search, I found &lt;a href=&quot;http://jekyllbootstrap.com/&quot;&gt;Jekyll Bootstrap&lt;/a&gt; might be a good way to construct my own blog. But the themes JB provides didn&#39;t satisfy me. Plus, I know little about front-end and can almost do nothing to change the way it looks like. So I decide to use the style of &lt;a href=&quot;http://beiyuu.com/&quot;&gt;BeiYuu&lt;/a&gt;. Thank BeiYuu for his generous open source of his own blog.&lt;/p&gt;
@@ -25,7 +25,7 @@
    
    <entry>
      <title>Switch to GitHub Pages + Jekyll!</title>
-     <link href="http://beiyuu.com/my-new-blog"/>
+     <link href="http://ysite.me/my-new-blog"/>
      <updated>2014-03-03T19:37:20Z</updated>
      <id>http://beiyuu.com/my-new-blog</id>
      <content type="html">&lt;p&gt;After months&#39; delay, I finally continue to write the blog. Due to the shortage of money, I cannot afford an VPS, even if I share the rent with a friend. On the other hand, WordPress is a little bit clumsy for me. So I switch to the GitHub Pages. All the posts are safely stored on GitHub and I have no need to worry about the backup when VPS expires. Besides, the style is so simple and neat, which perfectly satisfies me. Everything looks great here.&lt;/p&gt;
@@ -36,7 +36,7 @@
    
    <entry>
      <title>Write your own linux shell</title>
-     <link href="http://beiyuu.com/write-your-own-linux-shell"/>
+     <link href="http://ysite.me/write-your-own-linux-shell"/>
      <updated>2012-06-30T00:00:00+08:00</updated>
      <id>http://beiyuu.com/write-your-own-linux-shell</id>
      <content type="html">&lt;h2&gt;什么是shell&lt;/h2&gt;

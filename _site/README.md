@@ -1,12 +1,6 @@
-#一点点说明
+# Remark
 
-这是[BeiYuu.com](http://beiyuu.com)的源码，如果你看了[使用Github Pages建独立博客](http://beiyuu.com/github-pages/)，希望看下去哦：
+This is the source code of [ySite.me](http://ysite.me). The current version is based on the [BeiYuu.com](http://beiyuu.com). I hope to come up with another elegant design and write one on my own. Before that, I would use this design. Thank BeiYuu for his generous open source.
 
-* 马上动手，很赞
-* 感谢认可
-* 推荐阅读：[我为什么写博客？](http://beiyuu.com/why-blog/)
-* 想复用我的设计，没问题，标个出处就好啦
-* 转载也没问题，标个出处呗少年
-* 恩，认真的童鞋最可爱啦~
 
-###请删掉统计代码哦 /_layouts/default.html L38-41
+### If you want to use my code, no problems. Just remember to delete the statistical code located in /_layouts/default.html L38-41
