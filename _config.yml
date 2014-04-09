@@ -1,3 +1,11 @@
-name: ysite
-markdown: redcarpet
+auto: true
+
+markdown: rdiscount
 pygments: true
+paginate: 8
+permalink: /:title
+
+title: ySite
+url: http://ysite.me
+feed: /atom.xml
+author_info: <a href="http://ysite.me/">pystone</a>

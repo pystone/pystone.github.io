@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    * Author:         pystone(based on BeiYuu)
+    -->
+    <meta charset="utf-8" />
+    <title>Change the look of my blog | ySite</title>
+    <meta name="author" content="pystone" />
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="pystone's Blog" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/atom.xml" />
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="home-menu">
+        <div class="home-icon-con">
+            <a class="home-menu-icon" href="/">ySite</a>
+            <a class="home-follow" href="#" title="Contact Me">+</a>
+        </div>
+        <div class="home-contact">
+            <a href="http://weibo.com/pystone/" target="_blank" style="margin-left:-5px;"><img src="http://www.weibo.com/favicon.ico" alt="" width="25"/></a>
+            <a href="http://github.com/pystone" target="_blank" style="text-align:center;"><img src="https://www.github.com/favicon.ico" alt="" width="22"/></a>
+            <a href="http://instagram.com/pystone/" target="_blank" style="text-align:right"><img src="http://d36xtkk24g8jdx.cloudfront.net/bluebar/00c6602/images/ico/favicon.ico" alt="" width="22"/></a>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<style type="text/css">
+    body { background:#e8e8e8; }
+    @media screen and (max-width: 750px){
+        body { background:#fff; }
+    }
+    @media screen and (max-width: 1020px){
+        body { background:#fff; }
+    }
+</style>
+
+<div id="content">
+    <div class="entry">
+        <h1 class="entry-title"><a href="/change-the-look-of-my-blog" title="Change the look of my blog">Change the look of my blog</a></h1>
+        <p class="entry-date">2014-04-09</p>
+        <p>The default theme of Jekyll is too simple and looks not very well. After careful search, I found <a href="http://jekyllbootstrap.com/">Jekyll Bootstrap</a> might be a good way to construct my own blog. But the themes JB provides didn't satisfy me. Plus, I know little about front-end and can almost do nothing to change the way it looks like. So I decide to use the style of <a href="http://beiyuu.com/">BeiYuu</a>. Thank BeiYuu for his generous open source of his own blog.</p>
+
+<p>When constructing this new blog, I learnt so much about the front-end. Without the help of <a href="https://typeof.us/">rex</a>, I would not accomplish this. Many thanks to rex, my dear roommate.</p>
+
+
+        <div id="disqus_container">
+            <div style="margin-bottom:20px" class="right">
+                <script type="text/javascript" charset="utf-8">
+                (function(){
+                  var _w = 86 , _h = 16;
+                  var param = {
+                    url:location.href,
+                    type:'6',
+                    count:'', /**是否显示分享数，1显示(可选)*/
+                    appkey:'', /**您申请的应用appkey,显示分享来源(可选)*/
+                    title:'', /**分享的文字内容(可选，默认为所在页面的title)*/
+                    pic:'', /**分享图片的路径(可选)*/
+                    ralateUid:'1982372384', /**关联用户的UID，分享微博会@该用户(可选)*/
+                    language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+                    rnd:new Date().valueOf()
+                  }
+                  var temp = [];
+                  for( var p in param ){
+                    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+                  }
+                  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+                })()
+                </script>
+            </div>
+            <a href="#" class="comment" onclick="return false;">点击查看评论</a>
+            <div id="disqus_thread"></div>
+        </div>
+    </div>
+
+    <div class="sidenav">
+      <iframe width="100%" height="75" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=75&fansRow=2&ptype=1&speed=0&skin=3&isTitle=0&noborder=0&isWeibo=0&isFans=0&uid=1982372384&verifier=014c719a&colors=d6f3f7,ffffff,666666,0d61d4,ecfbfd&dpc=1"></iframe>
+    </div>
+
+    <div class="sidenav">
+        <h2>Tech</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/write-your-own-linux-shell">Write your own linux shell</a></li>
+        
+        </ul>
+
+        <h2>Life</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/change-the-look-of-my-blog">Change the look of my blog</a></li>
+        
+            <li><a href="/my-new-blog">Switch to GitHub Pages + Jekyll!</a></li>
+        
+        </ul>
+
+    </div>
+</div>
+
+<script src="/js/post.js" type="text/javascript"></script>
+
+
+    <!--*********************************************************-->
+    <!--****** 宝贝儿，看见这个时候，删掉下面的统计代码哦~ ******-->
+    <!--*********************************************************-->
+
+    <div class="hide">
+        <script type="text/javascript" src="http://js.tongji.linezing.com/3424900/tongji.js"></script>
+        <noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3424900/tongji.gif"/></a></noscript>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.home-follow').click(function(e){
+                e.preventDefault();
+
+                if($('.home-contact').is(':visible')){
+                    $('.home-contact').slideUp(100);
+                }else{
+                    $('.home-contact').slideDown(100);
+                }
+            });
+        })
+    </script>
+</body>
+</html>
