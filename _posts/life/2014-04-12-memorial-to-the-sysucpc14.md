@@ -51,6 +51,9 @@ However, our tragedy began. Txx and I was think about a mathematical problem, wh
 
 After the contest, we went to MingChu in Jiangnan Xi for dinner. The curry there catches me every time. At dinner, we talked about the Sui Bian in RBT. Ghost recommended it but both txx and I hadn't tasted. So we gave it a try after the dinner. Still not satisfied, we went to Mr. X to play Penetralium Escaping. Maybe we were disappointed about our performance in the contest, we played hard to escape from penetralium. In the end, we managed to escape right before the time ran out. Not a bad day ha.
 
+<img src="/images/memorial_to_sysucpc14/p1.jpg">
+
+
 ## Prostscript
 
 Txx said after the second round contest, 'never let Ghost debug more than 1 hour next time'. Aha indeed. But this is the last time. Where is next time?
