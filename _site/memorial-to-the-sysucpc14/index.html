@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    * Author:         pystone(based on BeiYuu)
+    -->
+    <meta charset="utf-8" />
+    <title>My final CPC: memorial to SYSUCPC 14' | ySite</title>
+    <meta name="author" content="pystone" />
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="pystone's Blog" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/atom.xml" />
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="home-menu">
+        <div class="home-icon-con">
+            <a class="home-menu-icon" href="/">ySite</a>
+            <a class="home-follow" href="#" title="Contact Me">+</a>
+        </div>
+        <div class="home-contact">
+            <a href="http://weibo.com/pystone/" target="_blank" style="margin-left:-5px;"><img src="http://www.weibo.com/favicon.ico" alt="" width="25"/></a>
+            <a href="http://github.com/pystone" target="_blank" style="text-align:center;"><img src="https://www.github.com/favicon.ico" alt="" width="22"/></a>
+            <a href="http://instagram.com/pystone/" target="_blank" style="text-align:right"><img src="http://d36xtkk24g8jdx.cloudfront.net/bluebar/00c6602/images/ico/favicon.ico" alt="" width="22"/></a>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<style type="text/css">
+    body { background:#e8e8e8; }
+    @media screen and (max-width: 750px){
+        body { background:#fff; }
+    }
+    @media screen and (max-width: 1020px){
+        body { background:#fff; }
+    }
+</style>
+
+<div id="content">
+    <div class="entry">
+        <h1 class="entry-title"><a href="/memorial-to-the-sysucpc14" title="My final CPC: memorial to SYSUCPC 14'">My final CPC: memorial to SYSUCPC 14'</a></h1>
+        <p class="entry-date">2014-04-12</p>
+        <h2>Our team</h2>
+
+<p>My teammates are <a href="http://blog.t-xx.me/">txx</a> and <a href="http://www.ghost233.me/">Ghost</a>. Actually, we teamed up when we were freshmen to participate in the SYSUCPC 11'. But at that time we were kind of arrogant because three of us started programming before entering university and they two even didn't take the GaoKao (winning the first prize in the NOIP will grant you an admission to almost any university in China). The arrogance kicked us and we didn't win the first prize and hence the entrance to the GDCPC 11'.</p>
+
+<p>If you read the About Me page carefully, you will know that txx and Ghost are also my team members in Martin Network. Indeed, we are an effective team.</p>
+
+<h2>Why we participate in SYSUCPC in our senior year?</h2>
+
+<p>During the registration, we can hardly see teams consist of senior students. Many senior students are engaged in the internship or travelling. But three of us are relatively free this time. Txx is now a technical director in an steadily-developing start-up. Ghost left Flamingo and is now looking for a new employer. As for me, I'm living the most comfortable life among classmates after I accepted the admission from CMU.</p>
+
+<p>Besides, we think this is the last time we can participate in a CPC. So we don't want to waste the chance to memorize the time when we were fighting in an programming contest. All of us started participating in such contest at least in ninth grade. So it means much in our lives.</p>
+
+<h2>Online preliminary contest</h2>
+
+<p>The number of teams registered for SYSUCPC 14' exceeded 150, the maximun capacity of the computer room. So there has to be a preliminary contest to select 150 teams to take the formal SYSUCPC 14'. This contest was held at <a href="http://soj.me/">Sicily</a>, the online judge system of SYSU.</p>
+
+<p>At that night of the contest, Ghost was sick and given a drip in hospital. Txx was still in Beijing, meeting clients of the start-up. So I had to solve the problems on my own. Haven't coded for about one year, I was a little bit nervous. But several years' programming experience made me solve the first two easy problems quickly. After gaining some confidence, I started to solve the third problem. I knew how to solve, but it was just a little tricky. I coded for about an hour and finally it was accepted after two submissions.</p>
+
+<p>Realizing that not much time left and we were at a good ranking, I stopped writing and started to chat with txx and Ghost. They were discussing how another problem could possibly be solved. And I occasionally expressed my opinions and joked. Anyway, this contest is more a warm-up than a contest for us.</p>
+
+<h2>First round contest</h2>
+
+<p>Not like before, SYSUCPC 14' consists of two separate contests. Top 40 teams will be authorized to take the second one. The second contest is Guangdong VS Zhejiang CPC. There're ten teams from ten universities respectively from Guangdong and Zhejiang, five from GD and five from ZJ. Other selected teams would take the synchronous contest, which means we solve the problems at the same time with those 10 teams, but we share different rankings.</p>
+
+<p>So the goal of the first contest would be ranking top 40. At first we were not confident about that because three of us hadn't trained for more than one year, but after careful analysis, we thought we have great chance. And it turned out to be right.</p>
+
+<p>In the first hour we solved three easy problems. After that, txx was coding on a simple but tricky problem. And I was working on a pure dynamic programming problem. but with extremely large scale input data (10<sup>9</sup>). An algorithm with O(n) time complexity would result in TLE. So we had to either think of a mathematical method to simplify it, or reduce the complexity to O(lgn).</p>
+
+<p>When I was struggling, txx's program was accepted and only one hour was left. At that time, we ranked 30+ and was at the fringe entering second round. Before that, I was trying mathematical methods, but failed. So I turned to state transition function. After several tries, I successfully divided the sub-problem in a half scale. So the overall complexity became O(lgn). I was so excited and went to code.</p>
+
+<p>The first time I submitted my code, I got WA. Would that be caused by a wrong state transition function? I checked the function carefully and assured the righteousness of it. Curious enough, I read my code one line by another. And I found that I wrote "a * b;" instead of "a *= b;" by mistake. What an idiot. After correcting this, I submitted again and got Accepted. At that time only 20 minutes left.</p>
+
+<p>Finally in the first round, we ranked 16, which surprised us a lot. And we had a great dinner in an Mexican Restaurant. BTW, there are almost all foreigners in that restaurant. Txx and Ghost said the food was delicious, but I tasted bland because I got a cold that day. After the dinner I felt even worse. I went back to dormitory quickly, took a shower and went to sleep early.</p>
+
+<h2>Second round contest</h2>
+
+<p>Thanks to the antibiotic, I was feeling well at the day of second round contest. With the good ranking in the first round, we were confident about ourselves.</p>
+
+<p>Five minutes after the contest began, more and more teams solved the first problem. It was a game theory problem and we couldn't find a way to solve it. With simple test, we guessed that if the size is larger than 3, the first player wins, otherwise the second. Apparently it was wrong. But almost all teams solved that problem, we thought it must be very simple. So we guessed that when the size is even, the first player wins, otherwise the second. Surprisingly but not unexpectedly, it was accepted. So we quickly moved on to the next problem.</p>
+
+<p>The second is a greedy algorithm. After several discussions, I began coding. The first submission got TLE because I set a three-dimensional array with a 3-level nested loop rather than memset() function. After I using memset(), it was accepted. So far so good.</p>
+
+<p>However, our tragedy began. Txx and I was think about a mathematical problem, which many teams solved, while Ghost was coding on a simple but very tricky problem. Three hours passed, and neither of us made it through. It seemed that the mathematical problem could be solved, but the idea slipped away every time I tried to catch it. Ghost always had a bad reputation on his correctness of coding. This time was no exception. WA, WA and WA. Finally we only solved two problems.</p>
+
+<p>After the contest, we went to MingChu in Jiangnan Xi for dinner. The curry there catches me every time. At dinner, we talked about the Sui Bian in RBT. Ghost recommended it but both txx and I hadn't tasted. So we gave it a try after the dinner. Still not satisfied, we went to Mr. X to play Penetralium Escaping. Maybe we were disappointed about our performance in the contest, we played hard to escape from penetralium. In the end, we managed to escape right before the time ran out. Not a bad day ha.</p>
+
+<h2>Prostscript</h2>
+
+<p>Txx said after the second round contest, 'never let Ghost debug more than 1 hour next time'. Aha indeed. But this is the last time. Where is next time?</p>
+
+
+        <div id="disqus_container">
+            <div style="margin-bottom:20px" class="right">
+                <script type="text/javascript" charset="utf-8">
+                (function(){
+                  var _w = 86 , _h = 16;
+                  var param = {
+                    url:location.href,
+                    type:'6',
+                    count:'', /**是否显示分享数，1显示(可选)*/
+                    appkey:'', /**您申请的应用appkey,显示分享来源(可选)*/
+                    title:'', /**分享的文字内容(可选，默认为所在页面的title)*/
+                    pic:'', /**分享图片的路径(可选)*/
+                    ralateUid:'1982372384', /**关联用户的UID，分享微博会@该用户(可选)*/
+                    language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+                    rnd:new Date().valueOf()
+                  }
+                  var temp = [];
+                  for( var p in param ){
+                    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+                  }
+                  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+                })()
+                </script>
+            </div>
+            <a href="#" class="comment" onclick="return false;">点击查看评论</a>
+            <div id="disqus_thread"></div>
+        </div>
+    </div>
+
+    <div class="sidenav">
+      <iframe width="100%" height="75" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=75&fansRow=2&ptype=1&speed=0&skin=3&isTitle=0&noborder=0&isWeibo=0&isFans=0&uid=1982372384&verifier=014c719a&colors=d6f3f7,ffffff,666666,0d61d4,ecfbfd&dpc=1"></iframe>
+    </div>
+
+    <div class="sidenav">
+        <h2>Tech</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/write-your-own-linux-shell">Write your own linux shell</a></li>
+        
+        </ul>
+
+        <h2>Life</h2>
+        <ul class="artical-list">
+        
+            <li><a href="/memorial-to-the-sysucpc14">My final CPC: memorial to SYSUCPC 14'</a></li>
+        
+            <li><a href="/change-the-look-of-my-blog">Change the look of my blog</a></li>
+        
+            <li><a href="/my-new-blog">Switch to GitHub Pages + Jekyll!</a></li>
+        
+        </ul>
+
+    </div>
+</div>
+
+<script src="/js/post.js" type="text/javascript"></script>
+
+
+    <!--**********************************-->
+    <!--****** Statistic code begin ******-->
+    <!--******  Remember to delete  ******-->
+    <!--**********************************-->
+    <div class="hide">
+        <script type="text/javascript" src="http://js.tongji.linezing.com/3424900/tongji.js"></script>
+        <noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3424900/tongji.gif"/></a></noscript>
+    </div>
+    <!--**********************************-->
+    <!--******  Statistic code end  ******-->
+    <!--******  Remember to delete  ******-->
+    <!--**********************************-->
+
+    <script type="text/javascript">
+        $(function(){
+            $('.home-follow').click(function(e){
+                e.preventDefault();
+
+                if($('.home-contact').is(':visible')){
+                    $('.home-contact').slideUp(100);
+                }else{
+                    $('.home-contact').slideDown(100);
+                }
+            });
+        })
+    </script>
+</body>
+</html>
