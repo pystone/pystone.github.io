@@ -8,7 +8,7 @@ description: "I'm taking 15513 (Introduction to computer systems, online version
 
 ## Prerequisite
 
-Bitwise operation allows programmers to directly operate number variables in low-level perspective. Types of number could include signed and unsigned integer and float-point number (more on this later). Basically in C, you can use the following operations: left shift and right shift (<< and >>), bitwise and, or, xor, not. Here is an interesting and enlightening passage about bitwise operation, which shocked me a lot when I first read it. But mind yourself, it is written in Chinese. 
+Bitwise operation allows programmers to directly operate number variables in low-level perspective. Types of number could include signed and unsigned integer and float-point number (more on this later). Basically in C, you can use the following operations: left shift and right shift (<< and >>), bitwise and, or, xor, not. Here is an interesting and enlightening passage about bitwise operation, which shocked me a lot when I first read it. It's written by Matrix67, a legend person among Chinese math and computer science bloggers. But mind yourself, it is written in Chinese. 
 
 OK. If you are familiar with those operations, we can get to the banquet now!
 
@@ -180,5 +180,69 @@ Transforming a 32-bit number into a 1-bit number mostly depends on one bit (usua
         // To be solved
     }
 
-Finally here comes the real boss. Look at the max op. It's 90! It is a long story optimizing this function. I will finish it later.
+Finally here comes the real boss. Look at the max op. It's 90! So, let's figure out a way to solve it first. We can quickly realize that positive and negative number can be solved by almost the same way, either counting the number of leading 0s (positive) or leading 1s (negative). And then increase that number by 1 and let 32 substract it. That is the answer. Since the method is same, we first complement x if it is negative:
+
+    x ^= (x>>31); // is negative, complement it 
+
+Well then, fill the bits right to the leading 1 with 1:
+
+    x |= x>>1;
+    x |= x>>2;
+    x |= x>>4;
+    x |= x>>8;
+    x |= x>>16;
+
+Now we have to count the number of 1 in x. Here I use a method introduced by Matrix67 to do that.
+
+    x := (x and $55555555) + ((x shr 1) and $55555555); 
+    x := (x and $33333333) + ((x shr 2) and $33333333); 
+    x := (x and $0F0F0F0F) + ((x shr 4) and $0F0F0F0F); 
+    x := (x and $00FF00FF) + ((x shr 8) and $00FF00FF); 
+    x := (x and $0000FFFF) + ((x shr 16) and $0000FFFF); 
+
+I just quote the codes from his blog. It's written in Pascal. Details about how this piece of code work can be found in his blog. I'm not going to duplicate it here. So let's move on.
+
+Now we get the number of 1s in x. And we just have to do some special judgements like returning 32 when given 0x80000000. But look at the total ops, 84. So, let's optimize!
+
+Look at the process of counting 1 in x. That takes too many ops because all the constants must range from 0 to 0xff and we spend so many ops in constructing constants. So, what about adding 1s in every 4 bits at first? That only needs one constant: 0x11111111. We can follow the old idea to add every two neighboring 4-bit into four 8-bit sections? It's good but it needs constant 0x0F0F0F0F. 
+
+We can do a hack here. The old idea follows the principle that adding neighboring sections together and the section's space of bit doubles. So the result would not overflow in that new section. But in a 4-bit section, the maximum number of 1 is four. And the maximum number of 1 of two 4-bit sections is eight, which is well within the capacity of a 4-bit section. So we directly add the higher four 4-bit sections into the lower four 4-bit sections respectively. 
+
+At last, we extract the lower four 4-bit sections and add them up. That's the answer. It looks like: 
+
+    // calculate all ones in every 4 bits
+    x = (x&phr1) + ((x>>1)&phr1) + ((x>>2)&phr1) + ((x>>3)&phr1);
+
+    // add the result in low 16 bits
+    // will not overflow cuz the maximum is 8
+    x += (x>>16);
+
+    // extract lower four 4-bit sections and add them up
+    x = (x&0xf) + ((x>>4)&0xf) + ((x>>8)&0xf) + ((x>>12)&0xf);
+
+Now the number of ops comes down to 48. It's a great progress, but still not enough. Following this way might get a little ops down, but only a little. So we need to find another way. 
+
+Since it's counting the number of leading 0s, why wouldn't we just count them directly? We can adopt a binary process to count leading 0s. First shift right 16 bits and see if it equals 0. If yes, add 16 to answer or 0 otherwise. Next, shift right 8 bits more (or less, depending on the previous answer value). And then 4 bits, 2 bits and 1 bit. Finally some special cases should be taken care of. So the code should be like this:
+
+    n = (!!(x>>16))<<4;
+    n += (!!(x>>(n+8)))<<3;
+    n += (!!(x>>(n+4)))<<2;
+    n += (!!(x>>(n+2)))<<1;
+    n += (!!(x>>(n+1)));
+    n += (!!n) + (!(1^x)) + 1;
+
+So, with this optimization, total ops reduces to 36. From 84 to 36, it's a great leap forward. We beat the boss!
+
+## Summary
+
+This lab is excited and time consuming. It took me days to come up to a great optimization. But that was exactly where the fun lies. Can't wait to get my hands on the second lab.
+
+
+
+
+
+
+
+
+
 
