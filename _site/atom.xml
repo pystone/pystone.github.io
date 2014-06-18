@@ -4,13 +4,105 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-06-04T02:15:37+08:00</updated>
+   <updated>2014-06-19T03:00:14+08:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
      <email></email>
    </author>
 
+   
+   <entry>
+     <title>退shark保平安</title>
+     <link href="http://ysite.me/no-shark"/>
+     <updated>2014-06-19T00:00:00+08:00</updated>
+     <id>http://beiyuu.com/no-shark</id>
+     <content type="html">&lt;p&gt;在国内远程上15213的筒子们，碰到必须要在shark上做的lab必定是蛋疼菊紧。因为在国内ssh连上shark一个按键需要n(n&gt;=1)秒才能得到反馈的感觉真是想把电脑砸了。但是如果在本机跑，“Initialization error: Running on an illegal host”的错误让你不得不乖乖回到shark的怀抱。今儿咱就不九评shark了，直接给你指条明路，施主请退shark保平安。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：在决定退shark之前请务必有一个64位的linux环境来运行lab的程序，以datalab中能顺利运行driver.pl为准！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;以bomblab为例，我们来看下该怎么在非shark平台运行bomb。首先我们通过strings查看所有字符串，确定“Initialization error: Running on an illegal host”这个错误提示是在哪里被引用的。我的bomb里的偏移是29a0。然后回到bomb的反汇编里面查看，这个偏移是在initialize_bomb这个函数里面。初步怀疑是这个函数在检测程序的运行环境，索性把这个调用指令删掉试试看。&lt;/p&gt;
+
+&lt;h2&gt;屏蔽initialize_bomb函数的调用指令&lt;/h2&gt;
+
+&lt;p&gt;屏蔽的主要思想是把调用指令改写成90(nop)指令。首先第一步咱要找到这个调用指令的位置。查看bomb的汇编，找到main函数中&lt;code&gt;callq  4015ed &amp;lt;initialize_bomb&amp;gt;&lt;/code&gt;指令的地址。例如我这个bomb的地址是400d57。同时记下该指令的机器码“e8 91 08 00 00”。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/main_initialize_bomb.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;接下来就要修改二进制文件。在terminal中输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vim -b bomb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;来编辑bomb。打开后会看到一堆乱码，别急，继续输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:%!xxd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;有没有觉得世界瞬间清净了！！你可以非常方便的查看每个位置的数据了。找到000d57位置，确认该位置之后的5个字节的内容是刚才我们记下的机器码“e8 91 08 00 00”。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/before_edit.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;确认无误之后把这五个字节的内容删除，然后输入“90 90 90 90 90”。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/after_edit.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;很好，现在就修改成功了。最后输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:%!xxd -r
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;回到乱码界面，再输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:x
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;保存并退出。好了，再在非shark机运行bomb就不会报错了。也不会对实验结果造成影响。&lt;/p&gt;
+
+&lt;p&gt;p.s. 我们在最开始记录的地址是400d57，而在修改bomb的二进制文件时修改的却是000d57位置上的值。其实这是因为汇编中的地址实际是virtual address，而打开的二进制文件时是实际相对文件开头的offset。具体的信息可以查看&lt;a href=&quot;http://book.douban.com/subject/1436811/&quot;&gt;&lt;em&gt;Linkers and Loaders&lt;/em&gt;&lt;/a&gt;这本书，或者&lt;a href=&quot;http://book.douban.com/subject/3652388/&quot;&gt;《程序员的自我修养》&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2&gt;修改host name&lt;/h2&gt;
+
+&lt;p&gt;上面的方法虽然能够正常运行，但是直接修改了binary，未免显得太过暴力。咱是文明人，这种一上来直接搞破坏的事咱还是尽量少做。那我们就来进一步分析下initialize_bomb这个函数，看有没有其他的方法来绕过检测。&lt;/p&gt;
+
+&lt;p&gt;回到initialize_bomb函数中，仔细看&lt;code&gt;mov    $0x4029a0,%edi&lt;/code&gt;这条指令之前的指令，发现一条可疑指令&lt;code&gt;callq  400b70 &amp;lt;gethostname@plt&amp;gt;&lt;/code&gt;。再稍微看下该指令之后的指令，可以发现只有gethostname函数的返回值为0的时候才算检测成功。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/initialize_bomb.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;那我们再稍微查一下gethostname的作用，发现这是用来获取host name的函数（&lt;a href=&quot;http://linux.die.net/man/2/gethostname&quot;&gt;http://linux.die.net/man/2/gethostname&lt;/a&gt;）。在shark中运行一下这个函数查看shark的host name，发现就是该台shark机的域名（例如bambooshark.ics.cs.cmu.edu）。&lt;/p&gt;
+
+&lt;p&gt;于是可以考虑把本机名改成shark的host name来骗过这个检测。既然有gethostname函数，那应该也会有sethostname函数。一查果不其然，可以利用sethostname函数来修改本机的host name（&lt;a href=&quot;http://linux.die.net/man/2/sethostname&quot;&gt;http://linux.die.net/man/2/sethostname&lt;/a&gt;）。参照用法，写一个小程序（chg_hostname.c）修改了host name之后再运行bomb，正常运行。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;unistd.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+
+int main() {
+    char hostname[100] = {0};
+    int res = gethostname(hostname, sizeof(hostname));
+    printf(&quot;Old host name: %s. (Return %d)\n&quot;, hostname, res);
+
+    strcpy(hostname, &quot;bambooshark.ics.cs.cmu.edu&quot;);
+
+    res = sethostname(hostname, strlen(hostname));
+    gethostname(hostname, sizeof(hostname));
+    printf(&quot;New host name: %s. (Return %d)\n&quot;, hostname, res);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者也可以直接通过&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git clone https://gist.github.com/87ead03a9c3a75660bb9.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;获得代码。&lt;/p&gt;
+
+&lt;h2&gt;后记&lt;/h2&gt;
+
+&lt;p&gt;Have fun playing with the labs~&lt;/p&gt;
+</content>
+   </entry>
    
    <entry>
      <title>Think in bitwise</title>
