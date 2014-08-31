@@ -5,7 +5,7 @@
     * Author:         pystone(based on BeiYuu)
     -->
     <meta charset="utf-8" />
-    <title>退shark保平安 | ySite</title>
+    <title>Get rid of shark(退shark保平安) | ySite</title>
     <meta name="author" content="pystone" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="pystone's Blog" />
@@ -42,11 +42,110 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/no-shark" title="退shark保平安">退shark保平安</a></h1>
+        <h1 class="entry-title"><a href="/no-shark" title="Get rid of shark(退shark保平安)">Get rid of shark(退shark保平安)</a></h1>
         <p class="entry-date">2014-06-19</p>
-        <p>在国内远程上15213的筒子们，碰到必须要在shark上做的lab必定是蛋疼菊紧。因为在国内ssh连上shark一个按键需要n(n>=1)秒才能得到反馈的感觉真是想把电脑砸了。但是如果在本机跑，“Initialization error: Running on an illegal host”的错误让你不得不乖乖回到shark的怀抱。今儿咱就不九评shark了，直接给你指条明路，施主请退shark保平安。</p>
+        <p>*English version</p>
+
+<p>I was taking 15513(an online version of 15213) before I came to CMU in China. Working on shark machines was a hard time due to the poor network connection between China and the US. However, some of the labs must be done on shark machines. For example, in bomblab, you have to use gdb to trace the program step by step in shark machine. That was a disaster for all the students in China. So I figured out some solutions to the issue to free us from shark. If you happen to have a hard time working on shark machines, you can also check out this blog and get rid of shark.</p>
+
+<p><strong>WARNING: You must ensure that you have your own 64-bit linux to do the labs if you decide not to use shark machines. Any distribution that can run driver.pl in datalab is fine.</strong></p>
+
+<p>FYI, here is my distribution (CentOS 6.5):</p>
+
+<pre><code>➜  ~  cat /proc/version 
+Linux version 2.6.32-431.17.1.el6.x86_64 (mockbuild@c6b8.bsys.dev.centos.org) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Wed May 7 23:32:49 UTC 2014
+</code></pre>
+
+<p>I will take bomblab as example.</p>
+
+<p>First of all, let's find out the reference offset of string "Initialization error: Running on an illegal host" using <em>strings</em> command. In my bomb, it is referenced at 0x29a0.</p>
+
+<p>Come back to the assembly. I find the offset 0x29a0 loacted in initialize_bomb function. Now, we have a strong evidence to suspect this function. So I try to delete the invocation of this function in main.</p>
+
+<h2>Delete the invocation of initialize_bomb</h2>
+
+<p>My main routine is to rewrite the invocation to 90(nop). First job is to find the offset of the invocation. After searching the assembly and I find a instruction <code>callq  4015ed &lt;initialize_bomb&gt;</code>. It is located at 0x400d57 and its machine code is "e8 91 08 00 00".</p>
+
+<p><img src="/images/no_shark/main_initialize_bomb.png"></p>
+
+<p>Next, let's modify the binary. Open the Terminal type:</p>
+
+<pre><code>vim -b bomb
+</code></pre>
+
+<p>After hitting enter, you will see a bunch of nonsense. Don't worry, type:</p>
+
+<pre><code>:%!xxd
+</code></pre>
+
+<p>Now you can look for the data at specific offset conveniently. Let's jump to the offset 0x000d57 and ensure the data at that offset is what we wrote down "e8 91 08 00 00".</p>
+
+<p><img src="/images/no_shark/before_edit.png"></p>
+
+<p>After ensuring it's the right place, delete these five bytes and input "90 90 90 90 90".</p>
+
+<p><img src="/images/no_shark/after_edit.png"></p>
+
+<p>Alright, now we just need to save the change and exit by typing:</p>
+
+<pre><code>:%!xxd -r
+:x
+</code></pre>
+
+<p>Now, you can run and debug the bomb in your own 64-bit linux. Yeah!</p>
+
+<p>One more thing, why the offset we wrote down is 0x400d57, while we change the data at 0x000d57? Actually the offset we found in assembly is virtual address, but the corresponding position in the file is the offset to the head of the file. For more details, you can refer to Chapter 7 Linking of CSAPP or <a href="http://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960"><em>Linkers and Loaders</em></a>.</p>
+
+<h2>Modify host name</h2>
+
+<p>Although the method above can free us from shark, it is a sort of brute-force, since it modifies the original binary of bomb. Is there another way to bypass the initialize_bomb? Let's dig into that function.</p>
+
+<p>Have a closer look at the instructions before <code>mov    $0x4029a0,%edi</code> in initialize_bomb. We can easily find a suspicious instruction <code>callq  400b70 &lt;gethostname@plt&gt;</code>. After careful analysis of the surrounding instructions, we find that only when the return value of gethostname equals 0 and the returned name falls into the range in host_table, the examination succeeds.</p>
+
+<p><img src="/images/no_shark/initialize_bomb.png"></p>
+
+<p>So the question becomes 'how can we fulfill the requirement?'. Check out the gethostname(<a href="http://linux.die.net/man/2/gethostname">http://linux.die.net/man/2/gethostname</a>) we can know it is used to get the host name of the computer. If we run the function in shark, the returned host name is the domain name of the machine (e.g. bambooshark.ics.cs.cmu.edu).</p>
+
+<p>Now we can change the host name of our own 64-bit linux to the domain name of one of the shark machines. We can sethostname function to do that. Here is my code to change the host name. After executing that, we can successfully run the bomb in our own 64-bit linux.</p>
+
+<pre><code>#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char hostname[100] = {0};
+    int res = gethostname(hostname, sizeof(hostname));
+    printf("Old host name: %s. (Return %d)\n", hostname, res);
+
+    strcpy(hostname, "bambooshark.ics.cs.cmu.edu");
+
+    res = sethostname(hostname, strlen(hostname));
+    gethostname(hostname, sizeof(hostname));
+    printf("New host name: %s. (Return %d)\n", hostname, res);
+    return 0;
+}
+</code></pre>
+
+<p>Or you can clone the code by:</p>
+
+<pre><code>git clone https://gist.github.com/87ead03a9c3a75660bb9.git
+</code></pre>
+
+<h2>Final words</h2>
+
+<p>Have fun with the labs :P</p>
+
+<p>*中文版本</p>
+
+<p>在国内远程上15213的筒子们，碰到必须要在shark上做的lab必定是蛋疼菊紧。因为在国内ssh连上shark一个按键需要n(n>=1)秒才能得到反馈的感觉真是想把电脑砸了。但是如果在本机跑，“Initialization error: Running on an illegal host”的错误让你不得不乖乖回到shark的怀抱。今儿咱就不九评shark了，直接给你指条明路，施主请退shark保平安。</p>
 
 <p><strong>注意：在决定退shark之前请务必有一个64位的linux环境来运行lab的程序，以datalab中能顺利运行driver.pl为准！</strong></p>
+
+<p>为了方便参考，我的本机平台是CentOS 6.5：</p>
+
+<pre><code>➜  ~  cat /proc/version 
+Linux version 2.6.32-431.17.1.el6.x86_64 (mockbuild@c6b8.bsys.dev.centos.org) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Wed May 7 23:32:49 UTC 2014
+</code></pre>
 
 <p>以bomblab为例，我们来看下该怎么在非shark平台运行bomb。首先我们通过strings查看所有字符串，确定“Initialization error: Running on an illegal host”这个错误提示是在哪里被引用的。我的bomb里的偏移是29a0。然后回到bomb的反汇编里面查看，这个偏移是在initialize_bomb这个函数里面。初步怀疑是这个函数在检测程序的运行环境，索性把这个调用指令删掉试试看。</p>
 
@@ -167,7 +266,7 @@ int main() {
         <h2>Tech</h2>
         <ul class="artical-list">
         
-            <li><a href="/no-shark">退shark保平安</a></li>
+            <li><a href="/no-shark">Get rid of shark(退shark保平安)</a></li>
         
             <li><a href="/think-in-bitwise">Think in bitwise</a></li>
         

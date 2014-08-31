@@ -4,7 +4,7 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-06-19T03:00:14+08:00</updated>
+   <updated>2014-08-31T19:04:15-04:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
@@ -13,13 +13,112 @@
 
    
    <entry>
-     <title>退shark保平安</title>
+     <title>Get rid of shark(退shark保平安)</title>
      <link href="http://ysite.me/no-shark"/>
-     <updated>2014-06-19T00:00:00+08:00</updated>
+     <updated>2014-06-19T00:00:00-04:00</updated>
      <id>http://beiyuu.com/no-shark</id>
-     <content type="html">&lt;p&gt;在国内远程上15213的筒子们，碰到必须要在shark上做的lab必定是蛋疼菊紧。因为在国内ssh连上shark一个按键需要n(n&gt;=1)秒才能得到反馈的感觉真是想把电脑砸了。但是如果在本机跑，“Initialization error: Running on an illegal host”的错误让你不得不乖乖回到shark的怀抱。今儿咱就不九评shark了，直接给你指条明路，施主请退shark保平安。&lt;/p&gt;
+     <content type="html">&lt;p&gt;*English version&lt;/p&gt;
+
+&lt;p&gt;I was taking 15513(an online version of 15213) before I came to CMU in China. Working on shark machines was a hard time due to the poor network connection between China and the US. However, some of the labs must be done on shark machines. For example, in bomblab, you have to use gdb to trace the program step by step in shark machine. That was a disaster for all the students in China. So I figured out some solutions to the issue to free us from shark. If you happen to have a hard time working on shark machines, you can also check out this blog and get rid of shark.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;WARNING: You must ensure that you have your own 64-bit linux to do the labs if you decide not to use shark machines. Any distribution that can run driver.pl in datalab is fine.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;FYI, here is my distribution (CentOS 6.5):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~  cat /proc/version 
+Linux version 2.6.32-431.17.1.el6.x86_64 (mockbuild@c6b8.bsys.dev.centos.org) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Wed May 7 23:32:49 UTC 2014
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I will take bomblab as example.&lt;/p&gt;
+
+&lt;p&gt;First of all, let&#39;s find out the reference offset of string &quot;Initialization error: Running on an illegal host&quot; using &lt;em&gt;strings&lt;/em&gt; command. In my bomb, it is referenced at 0x29a0.&lt;/p&gt;
+
+&lt;p&gt;Come back to the assembly. I find the offset 0x29a0 loacted in initialize_bomb function. Now, we have a strong evidence to suspect this function. So I try to delete the invocation of this function in main.&lt;/p&gt;
+
+&lt;h2&gt;Delete the invocation of initialize_bomb&lt;/h2&gt;
+
+&lt;p&gt;My main routine is to rewrite the invocation to 90(nop). First job is to find the offset of the invocation. After searching the assembly and I find a instruction &lt;code&gt;callq  4015ed &amp;lt;initialize_bomb&amp;gt;&lt;/code&gt;. It is located at 0x400d57 and its machine code is &quot;e8 91 08 00 00&quot;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/main_initialize_bomb.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, let&#39;s modify the binary. Open the Terminal type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vim -b bomb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After hitting enter, you will see a bunch of nonsense. Don&#39;t worry, type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:%!xxd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you can look for the data at specific offset conveniently. Let&#39;s jump to the offset 0x000d57 and ensure the data at that offset is what we wrote down &quot;e8 91 08 00 00&quot;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/before_edit.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;After ensuring it&#39;s the right place, delete these five bytes and input &quot;90 90 90 90 90&quot;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/after_edit.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Alright, now we just need to save the change and exit by typing:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:%!xxd -r
+:x
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, you can run and debug the bomb in your own 64-bit linux. Yeah!&lt;/p&gt;
+
+&lt;p&gt;One more thing, why the offset we wrote down is 0x400d57, while we change the data at 0x000d57? Actually the offset we found in assembly is virtual address, but the corresponding position in the file is the offset to the head of the file. For more details, you can refer to Chapter 7 Linking of CSAPP or &lt;a href=&quot;http://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960&quot;&gt;&lt;em&gt;Linkers and Loaders&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Modify host name&lt;/h2&gt;
+
+&lt;p&gt;Although the method above can free us from shark, it is a sort of brute-force, since it modifies the original binary of bomb. Is there another way to bypass the initialize_bomb? Let&#39;s dig into that function.&lt;/p&gt;
+
+&lt;p&gt;Have a closer look at the instructions before &lt;code&gt;mov    $0x4029a0,%edi&lt;/code&gt; in initialize_bomb. We can easily find a suspicious instruction &lt;code&gt;callq  400b70 &amp;lt;gethostname@plt&amp;gt;&lt;/code&gt;. After careful analysis of the surrounding instructions, we find that only when the return value of gethostname equals 0 and the returned name falls into the range in host_table, the examination succeeds.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/no_shark/initialize_bomb.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;So the question becomes &#39;how can we fulfill the requirement?&#39;. Check out the gethostname(&lt;a href=&quot;http://linux.die.net/man/2/gethostname&quot;&gt;http://linux.die.net/man/2/gethostname&lt;/a&gt;) we can know it is used to get the host name of the computer. If we run the function in shark, the returned host name is the domain name of the machine (e.g. bambooshark.ics.cs.cmu.edu).&lt;/p&gt;
+
+&lt;p&gt;Now we can change the host name of our own 64-bit linux to the domain name of one of the shark machines. We can sethostname function to do that. Here is my code to change the host name. After executing that, we can successfully run the bomb in our own 64-bit linux.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;unistd.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+
+int main() {
+    char hostname[100] = {0};
+    int res = gethostname(hostname, sizeof(hostname));
+    printf(&quot;Old host name: %s. (Return %d)\n&quot;, hostname, res);
+
+    strcpy(hostname, &quot;bambooshark.ics.cs.cmu.edu&quot;);
+
+    res = sethostname(hostname, strlen(hostname));
+    gethostname(hostname, sizeof(hostname));
+    printf(&quot;New host name: %s. (Return %d)\n&quot;, hostname, res);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or you can clone the code by:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git clone https://gist.github.com/87ead03a9c3a75660bb9.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Final words&lt;/h2&gt;
+
+&lt;p&gt;Have fun with the labs :P&lt;/p&gt;
+
+&lt;p&gt;*中文版本&lt;/p&gt;
+
+&lt;p&gt;在国内远程上15213的筒子们，碰到必须要在shark上做的lab必定是蛋疼菊紧。因为在国内ssh连上shark一个按键需要n(n&gt;=1)秒才能得到反馈的感觉真是想把电脑砸了。但是如果在本机跑，“Initialization error: Running on an illegal host”的错误让你不得不乖乖回到shark的怀抱。今儿咱就不九评shark了，直接给你指条明路，施主请退shark保平安。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;注意：在决定退shark之前请务必有一个64位的linux环境来运行lab的程序，以datalab中能顺利运行driver.pl为准！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了方便参考，我的本机平台是CentOS 6.5：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~  cat /proc/version 
+Linux version 2.6.32-431.17.1.el6.x86_64 (mockbuild@c6b8.bsys.dev.centos.org) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Wed May 7 23:32:49 UTC 2014
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;以bomblab为例，我们来看下该怎么在非shark平台运行bomb。首先我们通过strings查看所有字符串，确定“Initialization error: Running on an illegal host”这个错误提示是在哪里被引用的。我的bomb里的偏移是29a0。然后回到bomb的反汇编里面查看，这个偏移是在initialize_bomb这个函数里面。初步怀疑是这个函数在检测程序的运行环境，索性把这个调用指令删掉试试看。&lt;/p&gt;
 
@@ -107,7 +206,7 @@ int main() {
    <entry>
      <title>Think in bitwise</title>
      <link href="http://ysite.me/think-in-bitwise"/>
-     <updated>2014-06-03T00:00:00+08:00</updated>
+     <updated>2014-06-03T00:00:00-04:00</updated>
      <id>http://beiyuu.com/think-in-bitwise</id>
      <content type="html">&lt;h2&gt;Prerequisite&lt;/h2&gt;
 
@@ -360,7 +459,7 @@ n += (!!n) + (!(1^x)) + 1;
    <entry>
      <title>My final CPC: memorial to SYSUCPC 14'</title>
      <link href="http://ysite.me/memorial-to-the-sysucpc14"/>
-     <updated>2014-04-12T00:00:00+08:00</updated>
+     <updated>2014-04-12T00:00:00-04:00</updated>
      <id>http://beiyuu.com/memorial-to-the-sysucpc14</id>
      <content type="html">&lt;h2&gt;Our team&lt;/h2&gt;
 
@@ -419,7 +518,7 @@ n += (!!n) + (!(1^x)) + 1;
    <entry>
      <title>Change the look of my blog</title>
      <link href="http://ysite.me/change-the-look-of-my-blog"/>
-     <updated>2014-04-09T12:05:20Z</updated>
+     <updated>2014-04-09T08:05:20-04:00</updated>
      <id>http://beiyuu.com/change-the-look-of-my-blog</id>
      <content type="html">&lt;p&gt;The default theme of Jekyll is too simple and looks not very well. After careful search, I found &lt;a href=&quot;http://jekyllbootstrap.com/&quot;&gt;Jekyll Bootstrap&lt;/a&gt; might be a good way to construct my own blog. But the themes JB provides didn&#39;t satisfy me. Plus, I know little about front-end and can almost do nothing to change the way it looks like. So I decide to use the style of &lt;a href=&quot;http://beiyuu.com/&quot;&gt;BeiYuu&lt;/a&gt;. Thank BeiYuu for his generous open source of his own blog.&lt;/p&gt;
 
@@ -430,7 +529,7 @@ n += (!!n) + (!(1^x)) + 1;
    <entry>
      <title>Switch to GitHub Pages + Jekyll!</title>
      <link href="http://ysite.me/my-new-blog"/>
-     <updated>2014-03-03T19:37:20Z</updated>
+     <updated>2014-03-03T14:37:20-05:00</updated>
      <id>http://beiyuu.com/my-new-blog</id>
      <content type="html">&lt;p&gt;After months&#39; delay, I finally continue to write the blog. Due to the shortage of money, I cannot afford an VPS, even if I share the rent with a friend. On the other hand, WordPress is a little bit clumsy for me. So I switch to the GitHub Pages. All the posts are safely stored on GitHub and I have no need to worry about the backup when VPS expires. Besides, the style is so simple and neat, which perfectly satisfies me. Everything looks great here.&lt;/p&gt;
 
@@ -441,7 +540,7 @@ n += (!!n) + (!(1^x)) + 1;
    <entry>
      <title>Write your own linux shell</title>
      <link href="http://ysite.me/write-your-own-linux-shell"/>
-     <updated>2012-06-30T00:00:00+08:00</updated>
+     <updated>2012-06-30T00:00:00-04:00</updated>
      <id>http://beiyuu.com/write-your-own-linux-shell</id>
      <content type="html">&lt;h2&gt;什么是shell&lt;/h2&gt;
 
