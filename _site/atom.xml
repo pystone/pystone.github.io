@@ -4,7 +4,7 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-08-31T19:04:15-04:00</updated>
+   <updated>2014-09-04T00:35:47-04:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
@@ -13,15 +13,77 @@
 
    
    <entry>
+     <title>Use ctags in osx to index system headers</title>
+     <link href="http://ysite.me/use-ctags-in-osx-to-index-system-headers"/>
+     <updated>2014-09-02T00:00:00-04:00</updated>
+     <id>http://beiyuu.com/use-ctags-in-osx-to-index-system-headers</id>
+     <content type="html">&lt;p&gt;When using IDE like Xcode to write code, we may be impressed by the convenience brought by &quot;Jump to definition&quot; feature. However, when we write code in command-line environment like vim, we cannot natively enjoy the convenience anymore. But, ctags brings the great feature to command-line environment.&lt;/p&gt;
+
+&lt;h2&gt;Install ctags in OS X Mavericks&lt;/h2&gt;
+
+&lt;h3&gt;ctags in command-line tools from Xcode?&lt;/h3&gt;
+
+&lt;p&gt;When you install the command-line tools from Xcode, you have a ctags installed and you can use it directly. However, it does not support the -R option (recursive), which is a valid option in linux versions. And I find no way to generate tag files recursively in this version. So we have to abandon it and install it manually.&lt;/p&gt;
+
+&lt;h3&gt;Install through Homebrew?&lt;/h3&gt;
+
+&lt;p&gt;There are many tutorials saying that we can install through Homebrew. Indeed, Homebrew can install ctags in your os with the command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brew install ctags
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But, it installs to the subdirectory under Cellar(/usr/local/Cellar/ctags/5.8). Even if you add the path to $PATH, the Xcode version is still the default one. You can check it with the command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~  type ctags
+ctags is /usr/local/bin/ctags
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can add an alias in .bashrc or .zshrc file to redirect the command ctags to Homebrew version. But for an elegant programmer, it&#39;s not elegant. So we can just remove the Xcode version and install from source code.&lt;/p&gt;
+
+&lt;h3&gt;Install from source code&lt;/h3&gt;
+
+&lt;p&gt;First, download the source code from &lt;a href=&quot;http://sourceforge.net/projects/ctags/files/ctags/5.8/ctags-5.8.tar.gz/download&quot;&gt;&lt;em&gt;SourceForge&lt;/em&gt;&lt;/a&gt;. Unzip it and cd into the directory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./configure
+make
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK, the linux version is installed and you can simply use it with command ctags.&lt;/p&gt;
+
+&lt;h2&gt;Generate tags files in system headers directories&lt;/h2&gt;
+
+&lt;p&gt;Most system headers are located in /usr/include/tags and /usr/local/include/tags. So we change directory into them and type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ctags -R .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we have tags files in each of the directory.&lt;/p&gt;
+
+&lt;h2&gt;Put tags files on vim&#39;s radar&lt;/h2&gt;
+
+&lt;p&gt;You are now one step away from indexing system functions in vim. Edit your personal .vimrc file and add two lines:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;set tags+=/usr/local/include/tags
+set tags+=/usr/include/tags
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Save and exit. Yoohoo~, everything is done!&lt;/p&gt;
+
+&lt;p&gt;You can open an arbitary c file and navigate to a system function like printf. Hit ctrl+[ and you can now jump to the definition of printf!&lt;/p&gt;
+</content>
+   </entry>
+   
+   <entry>
      <title>Get rid of shark(退shark保平安)</title>
      <link href="http://ysite.me/no-shark"/>
      <updated>2014-06-19T00:00:00-04:00</updated>
      <id>http://beiyuu.com/no-shark</id>
-     <content type="html">&lt;p&gt;*English version&lt;/p&gt;
+     <content type="html">&lt;p&gt;---- English version&lt;/p&gt;
 
 &lt;p&gt;I was taking 15513(an online version of 15213) before I came to CMU in China. Working on shark machines was a hard time due to the poor network connection between China and the US. However, some of the labs must be done on shark machines. For example, in bomblab, you have to use gdb to trace the program step by step in shark machine. That was a disaster for all the students in China. So I figured out some solutions to the issue to free us from shark. If you happen to have a hard time working on shark machines, you can also check out this blog and get rid of shark.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;WARNING: You must ensure that you have your own 64-bit linux to do the labs if you decide not to use shark machines. Any distribution that can run driver.pl in datalab is fine.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;WARNING: You must ensure that you have your own 64-bit linux to do the labs if you decide not to use shark machines. Any distribution that can run driver.pl in datalab will be fine.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;FYI, here is my distribution (CentOS 6.5):&lt;/p&gt;
 
@@ -108,7 +170,7 @@ int main() {
 
 &lt;p&gt;Have fun with the labs :P&lt;/p&gt;
 
-&lt;p&gt;*中文版本&lt;/p&gt;
+&lt;p&gt;---- 中文版本&lt;/p&gt;
 
 &lt;p&gt;在国内远程上15213的筒子们，碰到必须要在shark上做的lab必定是蛋疼菊紧。因为在国内ssh连上shark一个按键需要n(n&gt;=1)秒才能得到反馈的感觉真是想把电脑砸了。但是如果在本机跑，“Initialization error: Running on an illegal host”的错误让你不得不乖乖回到shark的怀抱。今儿咱就不九评shark了，直接给你指条明路，施主请退shark保平安。&lt;/p&gt;
 

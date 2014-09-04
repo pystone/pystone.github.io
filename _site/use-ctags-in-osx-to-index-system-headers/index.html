@@ -5,7 +5,7 @@
     * Author:         pystone(based on BeiYuu)
     -->
     <meta charset="utf-8" />
-    <title>Change the look of my blog | ySite</title>
+    <title>Use ctags in osx to index system headers | ySite</title>
     <meta name="author" content="pystone" />
     <meta name="renderer" content="webkit">
     <meta name="description" content="pystone's Blog" />
@@ -42,11 +42,62 @@
 
 <div id="content">
     <div class="entry">
-        <h1 class="entry-title"><a href="/change-the-look-of-my-blog" title="Change the look of my blog">Change the look of my blog</a></h1>
-        <p class="entry-date">2014-04-09</p>
-        <p>The default theme of Jekyll is too simple and looks not very well. After careful search, I found <a href="http://jekyllbootstrap.com/">Jekyll Bootstrap</a> might be a good way to construct my own blog. But the themes JB provides didn't satisfy me. Plus, I know little about front-end and can almost do nothing to change the way it looks like. So I decide to use the style of <a href="http://beiyuu.com/">BeiYuu</a>. Thank BeiYuu for his generous open source of his own blog.</p>
+        <h1 class="entry-title"><a href="/use-ctags-in-osx-to-index-system-headers" title="Use ctags in osx to index system headers">Use ctags in osx to index system headers</a></h1>
+        <p class="entry-date">2014-09-02</p>
+        <p>When using IDE like Xcode to write code, we may be impressed by the convenience brought by "Jump to definition" feature. However, when we write code in command-line environment like vim, we cannot natively enjoy the convenience anymore. But, ctags brings the great feature to command-line environment.</p>
 
-<p>When constructing this new blog, I learnt so much about the front-end. Without the help of <a href="https://typeof.us/">rex</a>, I would not accomplish this. Many thanks to rex, my dear roommate.</p>
+<h2>Install ctags in OS X Mavericks</h2>
+
+<h3>ctags in command-line tools from Xcode?</h3>
+
+<p>When you install the command-line tools from Xcode, you have a ctags installed and you can use it directly. However, it does not support the -R option (recursive), which is a valid option in linux versions. And I find no way to generate tag files recursively in this version. So we have to abandon it and install it manually.</p>
+
+<h3>Install through Homebrew?</h3>
+
+<p>There are many tutorials saying that we can install through Homebrew. Indeed, Homebrew can install ctags in your os with the command:</p>
+
+<pre><code>brew install ctags
+</code></pre>
+
+<p>But, it installs to the subdirectory under Cellar(/usr/local/Cellar/ctags/5.8). Even if you add the path to $PATH, the Xcode version is still the default one. You can check it with the command:</p>
+
+<pre><code>➜  ~  type ctags
+ctags is /usr/local/bin/ctags
+</code></pre>
+
+<p>We can add an alias in .bashrc or .zshrc file to redirect the command ctags to Homebrew version. But for an elegant programmer, it's not elegant. So we can just remove the Xcode version and install from source code.</p>
+
+<h3>Install from source code</h3>
+
+<p>First, download the source code from <a href="http://sourceforge.net/projects/ctags/files/ctags/5.8/ctags-5.8.tar.gz/download"><em>SourceForge</em></a>. Unzip it and cd into the directory.</p>
+
+<pre><code>./configure
+make
+sudo make install
+</code></pre>
+
+<p>OK, the linux version is installed and you can simply use it with command ctags.</p>
+
+<h2>Generate tags files in system headers directories</h2>
+
+<p>Most system headers are located in /usr/include/tags and /usr/local/include/tags. So we change directory into them and type:</p>
+
+<pre><code>ctags -R .
+</code></pre>
+
+<p>Now we have tags files in each of the directory.</p>
+
+<h2>Put tags files on vim's radar</h2>
+
+<p>You are now one step away from indexing system functions in vim. Edit your personal .vimrc file and add two lines:</p>
+
+<pre><code>set tags+=/usr/local/include/tags
+set tags+=/usr/include/tags
+</code></pre>
+
+<p>Save and exit. Yoohoo~, everything is done!</p>
+
+<p>You can open an arbitary c file and navigate to a system function like printf. Hit ctrl+[ and you can now jump to the definition of printf!</p>
 
 
         <div id="disqus_container">
