@@ -107,6 +107,8 @@ VBoxManage setextradata "Cent_6.5" "VBoxInternal/Devices/e1000/0/LUN#0/Config/ss
 <pre><code>shutdown -h now
 </code></pre>
 
+<h3>Create alias</h3>
+
 <p>You may not want to type all these things every time. So just create an alias in your .bashrc or .zshrc(yeah, I'm using zsh~). For example, here are my alias:</p>
 
 <pre><code>alias startvm="VBoxHeadless --startvm 'Cent_6.5' &amp;"
@@ -131,14 +133,25 @@ stopvm
 
 <p>To enable the sharing feature, you should do some preparations in Linux.</p>
 
-<p>For Debian or Debian based distributions (Ubuntu)
-    apt-get install dkms build-essential linux-headers-generic
-For Mandirva
-    urpmi dkms gcc make libgomp1 glibc-devel kernel-devel kernel-headers
-For Fedora
-    yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel
-or
-    yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-pae-devel</p>
+<p>For Debian or Debian based distributions (Ubuntu)</p>
+
+<pre><code>apt-get install dkms build-essential linux-headers-generic
+</code></pre>
+
+<p>For Mandirva</p>
+
+<pre><code>urpmi dkms gcc make libgomp1 glibc-devel kernel-devel kernel-headers
+</code></pre>
+
+<p>For Fedora</p>
+
+<pre><code>yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel
+</code></pre>
+
+<p>or</p>
+
+<pre><code>yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-pae-devel
+</code></pre>
 
 <h3>Install VBoxGuestAdditions</h3>
 

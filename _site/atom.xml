@@ -4,7 +4,7 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-09-08T02:09:46-04:00</updated>
+   <updated>2014-09-08T02:15:43-04:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
@@ -80,6 +80,8 @@ VBoxManage setextradata &quot;Cent_6.5&quot; &quot;VBoxInternal/Devices/e1000/0/
 &lt;pre&gt;&lt;code&gt;shutdown -h now
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h3&gt;Create alias&lt;/h3&gt;
+
 &lt;p&gt;You may not want to type all these things every time. So just create an alias in your .bashrc or .zshrc(yeah, I&#39;m using zsh~). For example, here are my alias:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;alias startvm=&quot;VBoxHeadless --startvm &#39;Cent_6.5&#39; &amp;amp;&quot;
@@ -104,14 +106,25 @@ stopvm
 
 &lt;p&gt;To enable the sharing feature, you should do some preparations in Linux.&lt;/p&gt;
 
-&lt;p&gt;For Debian or Debian based distributions (Ubuntu)
-    apt-get install dkms build-essential linux-headers-generic
-For Mandirva
-    urpmi dkms gcc make libgomp1 glibc-devel kernel-devel kernel-headers
-For Fedora
-    yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel
-or
-    yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-pae-devel&lt;/p&gt;
+&lt;p&gt;For Debian or Debian based distributions (Ubuntu)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt-get install dkms build-essential linux-headers-generic
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For Mandirva&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;urpmi dkms gcc make libgomp1 glibc-devel kernel-devel kernel-headers
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For Fedora&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-pae-devel
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;Install VBoxGuestAdditions&lt;/h3&gt;
 

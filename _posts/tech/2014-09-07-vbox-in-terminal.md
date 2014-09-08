@@ -64,6 +64,8 @@ Or using the following command in Linux has the same effect:
 
     shutdown -h now
 
+### Create alias 
+
 You may not want to type all these things every time. So just create an alias in your .bashrc or .zshrc(yeah, I'm using zsh~). For example, here are my alias:
 
     alias startvm="VBoxHeadless --startvm 'Cent_6.5' &"
@@ -87,13 +89,21 @@ Now your virtual Linux and your host OS X are two separated systems. If you are 
 To enable the sharing feature, you should do some preparations in Linux.
 
 For Debian or Debian based distributions (Ubuntu)
+
     apt-get install dkms build-essential linux-headers-generic
+
 For Mandirva
+
     urpmi dkms gcc make libgomp1 glibc-devel kernel-devel kernel-headers
+
 For Fedora
+
     yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel
+
 or
+
     yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-pae-devel
+
 
 ### Install VBoxGuestAdditions
 
