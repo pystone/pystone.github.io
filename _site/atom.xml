@@ -4,13 +4,157 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-09-04T00:35:47-04:00</updated>
+   <updated>2014-09-08T01:57:14-04:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
      <email></email>
    </author>
 
+   
+   <entry>
+     <title>VirtualBox in terminal on osx</title>
+     <link href="http://ysite.me/vbox-in-terminal"/>
+     <updated>2014-09-07T00:00:00-04:00</updated>
+     <id>http://beiyuu.com/vbox-in-terminal</id>
+     <content type="html">&lt;h2&gt;Necessary files to download&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;VirtualBox 4.3.14: &lt;a href=&quot;http://download.virtualbox.org/virtualbox/4.3.14/VirtualBox-4.3.14-95030-OSX.dmg&quot;&gt;http://download.virtualbox.org/virtualbox/4.3.14/VirtualBox-4.3.14-95030-OSX.dmg&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;VirtualBox 4.3.14 Oracle VM VirtualBox Extension Pack: &lt;a href=&quot;http://download.virtualbox.org/virtualbox/4.3.14/Oracle_VM_VirtualBox_Extension_Pack-4.3.14-95030.vbox-extpack&quot;&gt;http://download.virtualbox.org/virtualbox/4.3.14/Oracle_VM_VirtualBox_Extension_Pack-4.3.14-95030.vbox-extpack&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Install image of any Linux distribution without GUI. This tutorial will use CentOS 6.5 64-bit as an example. Some commands given below shall subject to adaptation (such as &lt;code&gt;yum&lt;/code&gt;).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;VBoxGuestAdditions.iso: &lt;a href=&quot;http://download.virtualbox.org/virtualbox/&quot;&gt;http://download.virtualbox.org/virtualbox/&lt;/a&gt; (Find the right version)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;Install VirtualBox, Linux and Extension Pack&lt;/h2&gt;
+
+&lt;p&gt;Installing VirtualBox and Linux is an easy thing for you, I will save the time here. After that, you should install VirtualBox Extension in OS X. Download and double-click it and you are done.&lt;/p&gt;
+
+&lt;h2&gt;Configure ssh settings&lt;/h2&gt;
+
+&lt;p&gt;To connect to the Linux using ssh, we should install ssh in Linux first. Turn on the virtual machine in VirtualBox in normal way, log in and type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo yum install openssh-server openssh-clients
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you can shut down the virtual machine:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo shutdown -h now
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the settings of Linux virtual machine, you should make the network attached to &lt;em&gt;NAT&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/vbox_in_terminal/p1.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Next we should bind the virtual machine in a specific port so that we can ssh to it. Open terminal in osx and type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;VBoxManage setextradata &quot;Cent_6.5&quot; &quot;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&quot; TCP
+VBoxManage setextradata &quot;Cent_6.5&quot; &quot;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&quot; 22
+VBoxManage setextradata &quot;Cent_6.5&quot; &quot;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&quot; 3456
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the third command, 3456 is binding port of the host machine, indicating when ssh to localhost:3456, you are connecting to virtual machine. &quot;Cent_6.5&quot; is the name of the Linux virtual machine. I will use the same syntax in the following passage.&lt;/p&gt;
+
+&lt;h2&gt;Manage the virtual machine in Terminal&lt;/h2&gt;
+
+&lt;p&gt;Once you are done with all the stuffs above, you can manage your virtual machine in Terminal in osx. Type the command to turn on the vm:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;VBoxHeadless -startvm &quot;Cent_6.5” &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Connet to it with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ssh USERNAME@localhost -p 3456
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As memtioned above, 3456 is the port you set just now. USERNAME is the user name of you Linux account.&lt;/p&gt;
+
+&lt;p&gt;You can shut down the Linux in Terminal in osx using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;VBoxManage controlvm “Cent_6.5” poweroff
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or using the following command in Linux has the same effect:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;shutdown -h now
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may not want to type all these things every time. So just create an alias in your .bashrc or .zshrc(yeah, I&#39;m using zsh~). For example, here are my alias:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;alias startvm=&quot;VBoxHeadless --startvm &#39;Cent_6.5&#39; &amp;amp;&quot;
+alias stopvm=&quot;VBoxManage controlvm &#39;Cent_6.5&#39; poweroff&quot;
+alias sshtovm=&quot;ssh py@localhost -p 3456&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;By doing so, you can turn on, connect to and shut down vm by typing:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;startvm
+sshtovm
+stopvm
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;By now, you can manage your virtual machine simply in Terminal. But there is one thing left, file sharing between virtual machine and host.&lt;/p&gt;
+
+&lt;h2&gt;File sharing between virtual machine and host&lt;/h2&gt;
+
+&lt;p&gt;Now your virtual Linux and your host OS X are two separated systems. If you are not terrified with transfering files using scp, you can close this blog now. But if you want to access files in OS X in your Linux or vice versa, you may want to go on.&lt;/p&gt;
+
+&lt;h3&gt;Virtual machine preparations&lt;/h3&gt;
+
+&lt;p&gt;To enable the sharing feature, you should do some preparations in Linux.&lt;/p&gt;
+
+&lt;p&gt;For Debian or Debian based distributions (Ubuntu)
+    apt-get install dkms build-essential linux-headers-generic
+For Mandirva
+    urpmi dkms gcc make libgomp1 glibc-devel kernel-devel kernel-headers
+For Fedora
+    yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel
+or
+    yum install dkms binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-pae-devel&lt;/p&gt;
+
+&lt;h3&gt;Install VBoxGuestAdditions&lt;/h3&gt;
+
+&lt;p&gt;Download the VBoxGuestAdditions.iso and mount it to Linux in settings.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/vbox_in_terminal/p2.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;In the virtual machine, type the following commands to mount iso file and install:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo makedir /media/cdrom    
+sudo mount /dev/sr0 /media/cdrom
+cd /media/cdrom
+sudo sh ./VBoxLinuxAdditions.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One thing to be noted is that if no Xserver installed, you might get the error &quot;Could not find the X.Org or XFree86 Window System, skipping.”. Just ignore it.&lt;/p&gt;
+
+&lt;h3&gt;Select folder to be shared&lt;/h3&gt;
+
+&lt;p&gt;In the vm settings, switch to Shared Folders tab. Add the folders you want to share.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/vbox_in_terminal/p2.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Keep the name of it (take ‘PY’ for example) in mind, and we’ll use it later. Type the following command in Terminal in vm: (PY is the name you set in the vm settings)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mkdir ~/sf
+sudo mount -t vboxsf PY ~/sf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;~/sf is the shared folder. One more thing, every time you restart the vm, the shared folder is unmounted and you should mount it again. So you can save the mount command in a .sh script and run it when start.&lt;/p&gt;
+
+&lt;p&gt;Now, it&#39;s a perfect integrated vm in your osx. Just enjoy it!&lt;/p&gt;
+
+&lt;h2&gt;Reference&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://forums.virtualbox.org/viewtopic.php?t=15679&quot;&gt;https://forums.virtualbox.org/viewtopic.php?t=15679&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.andrew-kirkpatrick.com/2011/12/virtualbox-guest-additions-with-shared-folders-on-mac-os-x/&quot;&gt;http://www.andrew-kirkpatrick.com/2011/12/virtualbox-guest-additions-with-shared-folders-on-mac-os-x/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://forums.virtualbox.org/viewtopic.php?t=15868&quot;&gt;https://forums.virtualbox.org/viewtopic.php?t=15868&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+</content>
+   </entry>
    
    <entry>
      <title>Use ctags in osx to index system headers</title>
