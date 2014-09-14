@@ -23,7 +23,7 @@
             <a class="home-follow" href="#" title="Contact Me">+</a>
         </div>
         <div class="home-contact">
-            <a href="http://weibo.com/pystone/" target="_blank" style="margin-left:-5px;"><img src="http://www.weibo.com/favicon.ico" alt="" width="25"/></a>
+            <a href="https://www.linkedin.com/in/pystone" target="_blank" style="margin-left:-5px;"><img src="https://static.licdn.com/scds/common/u/img/icon/apple-touch-icon.png" alt="" width="25"/></a>
             <a href="http://github.com/pystone" target="_blank" style="text-align:center;"><img src="https://www.github.com/favicon.ico" alt="" width="22"/></a>
             <a href="http://instagram.com/pystone/" target="_blank" style="text-align:right"><img src="http://d36xtkk24g8jdx.cloudfront.net/bluebar/00c6602/images/ico/favicon.ico" alt="" width="22"/></a>
         </div>
@@ -44,7 +44,15 @@
     <div class="entry">
         <h1 class="entry-title"><a href="/vbox-in-terminal" title="VirtualBox in terminal on osx">VirtualBox in terminal on osx</a></h1>
         <p class="entry-date">2014-09-07</p>
-        <h2>Necessary files to download</h2>
+        <h2>Preview</h2>
+
+<p>First I will show you the idea to run and control a virtual Linux directly on Terminal in OS X.</p>
+
+<p><a href="/images/vbox_in_terminal/p0.png" target="_blank">
+<img id="image-preview" class="reduced" src="/images/vbox_in_terminal/p0.png" alt>
+</a></p>
+
+<h2>Necessary files to download</h2>
 
 <ol>
 <li><p>VirtualBox 4.3.14: <a href="http://download.virtualbox.org/virtualbox/4.3.14/VirtualBox-4.3.14-95030-OSX.dmg">http://download.virtualbox.org/virtualbox/4.3.14/VirtualBox-4.3.14-95030-OSX.dmg</a></p></li>
@@ -195,38 +203,30 @@ sudo mount -t vboxsf PY ~/sf
 
 
 
-        <div id="disqus_container">
-            <div style="margin-bottom:20px" class="right">
-                <script type="text/javascript" charset="utf-8">
-                (function(){
-                  var _w = 86 , _h = 16;
-                  var param = {
-                    url:location.href,
-                    type:'6',
-                    count:'', /**是否显示分享数，1显示(可选)*/
-                    appkey:'', /**您申请的应用appkey,显示分享来源(可选)*/
-                    title:'', /**分享的文字内容(可选，默认为所在页面的title)*/
-                    pic:'', /**分享图片的路径(可选)*/
-                    ralateUid:'1982372384', /**关联用户的UID，分享微博会@该用户(可选)*/
-                    language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
-                    rnd:new Date().valueOf()
-                  }
-                  var temp = [];
-                  for( var p in param ){
-                    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
-                  }
-                  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
-                })()
-                </script>
-            </div>
-            <a href="#" class="comment" onclick="return false;">点击查看评论</a>
-            <div id="disqus_thread"></div>
-        </div>
+        <!-- Load disqus          -->
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'pystone'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
     </div>
 
+    <!-- Originally personal weibo card here
     <div class="sidenav">
-      <iframe width="100%" height="75" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=75&fansRow=2&ptype=1&speed=0&skin=3&isTitle=0&noborder=0&isWeibo=0&isFans=0&uid=1982372384&verifier=014c719a&colors=d6f3f7,ffffff,666666,0d61d4,ecfbfd&dpc=1"></iframe>
-    </div>
+        <a> haha </a>
+    </div> 
+    -->
 
     <div class="sidenav">
         <h2>Tech</h2>

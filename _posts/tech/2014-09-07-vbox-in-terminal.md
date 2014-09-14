@@ -3,8 +3,16 @@ layout: post
 title: "VirtualBox in terminal on osx"
 category: tech
 keyword: VirtualBox, Linux, terminal, OS X Mavericks
-description: "We all have the experience that install a Linux in VM on osx. But every time we want to do something in Linux, we have to open a VM window. Even if we install a Linux without GUI, a VM window with command-line interface is also necessary. Why not simply turn on the virtual Linux with terminal and connect to it with ssh? Here I'll tell you the way to do so."
+description: "We all have the experience that install a Linux in VM on osx. But every time we want to do something in Linux, we have to open a VM window. Even if we install a Linux without GUI, a VM window with command-line interface is also necessary. Why not simply turn on the virtual Linux on Terminal in OS X and connect to it with ssh? Here I'll tell you the way to do so."
 ---
+
+## Preview
+
+First I will show you the idea to run and control a virtual Linux directly on Terminal in OS X.
+
+<a href="/images/vbox_in_terminal/p0.png" target="_blank">
+<img id="image-preview" class="reduced" src="/images/vbox_in_terminal/p0.png" alt>
+</a>
 
 ## Necessary files to download
 

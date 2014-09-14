@@ -1,7 +1,7 @@
-auto: true
+# auto: true
 
 markdown: rdiscount
-pygments: true
+highlighter: pygments
 paginate: 8
 permalink: /:title
 

@@ -4,7 +4,7 @@
    <title>ySite</title>
    <link href="http://ysite.me/atom.xml" rel="self" type="application/atom+xml"/>
    <link href="http://ysite.me" rel="alternate" type="text/html" />
-   <updated>2014-09-08T02:15:43-04:00</updated>
+   <updated>2014-09-14T17:43:57-04:00</updated>
    <id>http://ysite.me</id>
    <author>
      <name></name>
@@ -17,7 +17,15 @@
      <link href="http://ysite.me/vbox-in-terminal"/>
      <updated>2014-09-07T00:00:00-04:00</updated>
      <id>http://beiyuu.com/vbox-in-terminal</id>
-     <content type="html">&lt;h2&gt;Necessary files to download&lt;/h2&gt;
+     <content type="html">&lt;h2&gt;Preview&lt;/h2&gt;
+
+&lt;p&gt;First I will show you the idea to run and control a virtual Linux directly on Terminal in OS X.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/images/vbox_in_terminal/p0.png&quot; target=&quot;_blank&quot;&gt;
+&lt;img id=&quot;image-preview&quot; class=&quot;reduced&quot; src=&quot;/images/vbox_in_terminal/p0.png&quot; alt&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Necessary files to download&lt;/h2&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;VirtualBox 4.3.14: &lt;a href=&quot;http://download.virtualbox.org/virtualbox/4.3.14/VirtualBox-4.3.14-95030-OSX.dmg&quot;&gt;http://download.virtualbox.org/virtualbox/4.3.14/VirtualBox-4.3.14-95030-OSX.dmg&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
